@@ -1,0 +1,37 @@
+# setup parameters for xgboost
+param = {}
+
+### General parameters
+
+param['booster'] = 'gbtree'      ### Possible options :: gbtree, gblinear or dart; gbtree and dart use tree based models while gblinear uses linear functions.
+param['verbosity'] = 2           ### Valid values are 0 (silent), 1 (warning), 2 (info), 3 (debug)
+param['nthread'] = 8
+param['disable_default_eval_metric'] = 0    ### Set to > 0 to disable
+
+
+### Parameters for tree booster
+
+param['eta'] = 0.1               ### Step size shrinkage. Values 0-1. Higher is more conservative. Overfitting parameters.
+params['gamma'] = 0              ### Min loss reduction to make a further partition on a leaf node of the tree. Higher is more conservative. Values 0-inf. Overfitting parameters.
+param['max_depth'] = 3           ### Overfitting parameters.
+param['min_child_weight'] =  0   ### Min sum of child weights required for further split. Values 0-inf. Higher is more conservative. Overfitting parameters.
+param['subsample'] = 0.5         ### Bagging fraction. Values 0-1.
+param['colsample_by*'] = {'colsample_bytree':0.5, 'colsample_bylevel':0.5, 'colsample_bynode':0.5}
+                                 ### Feature fraction by 'Tree level', by 'Tree depth level', by 'Tree node level'. Values 0-1. Overfitting parameters.
+
+param['lambda'] = 1              ### L2 regularization. Overfitting parameters. Higher is more conservative.
+param['alpha'] = 0               ### L1 regularization. Overfitting parameters. Higher is more conservative.
+param['tree_method'] = 'auto'    ### Tree construction algorithm. Options : auto, exact, approx, hist, gpu_exact, gpu_hist
+param['scale_pos_weight'] = sum_wpos/sum_wneg    ### Handle class imbalances
+
+
+### Parameters for dart booster
+
+#param['sample_type']  = 'uniform'   ### Dropped trees are selected uniformly or proportion to weight. Options : []'uniform', 'weighted'].
+#param['rate_drop'] = 0.0            ### Drop out rate. Values 0.0-1.0
+
+
+### Learning task parameters [ https://xgboost.readthedocs.io/en/latest/parameter.html#learning-task-parameters ]
+param['objective'] = 'binary:logistic'
+param['eval_metric'] = 'auc'
+param['seed'] = 0
